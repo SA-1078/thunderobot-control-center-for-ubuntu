@@ -1,18 +1,41 @@
 # Thunderobot Control Center para Linux (Ubuntu)
+### Diseñado específicamente para Thunderobot RS16 (AMD Ryzen 7 7745HX + NVIDIA RTX 5070 Laptop)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Platform: Linux/Ubuntu](https://img.shields.io/badge/Platform-Ubuntu%20Linux-E95420.svg)](#-requisitos-previos)
+[![Tested On: Thunderobot RS16](https://img.shields.io/badge/Device-Thunderobot%20RS16-blueviolet.svg)](#-compatibilidad-de-hardware-y-advertencia)
+[![CPU: AMD Ryzen 7 7745HX](https://img.shields.io/badge/CPU-Ryzen%207%207745HX-ED1C24.svg)](#-compatibilidad-de-hardware-y-advertencia)
+[![GPU: NVIDIA RTX 5070](https://img.shields.io/badge/GPU-RTX%205070%20Laptop-76B900.svg)](#-compatibilidad-de-hardware-y-advertencia)
 [![UI: Flutter](https://img.shields.io/badge/UI-Flutter%20Desktop-02569B.svg)](#-estructura-del-repositorio)
 [![Backend: Python](https://img.shields.io/badge/Backend-Python%203-3776AB.svg)](#-estructura-del-repositorio)
 
-Centro de Control nativo, moderno y modular desarrollado en **Flutter (UI)** y **Python (Motor & HAL)** para laptops **Thunderobot** (chasis Uniwill / Tongfang con procesadores AMD Ryzen y gráficos NVIDIA GeForce RTX).
+Centro de Control nativo, moderno y modular desarrollado en **Flutter (UI)** y **Python (Motor & HAL)** para laptops **Thunderobot RS16** (chasis Uniwill / Tongfang con procesadores AMD Ryzen y gráficos NVIDIA GeForce RTX).
 
 Diseñado específicamente como un reemplazo de alto rendimiento y código abierto para el Control Center original de Windows, optimizado para Linux sin requerir privilegios de superusuario en la sesión diaria.
 
 ---
 
+<a id="compatibilidad"></a>
+## ⚠️ Compatibilidad de Hardware y Advertencia
+
+> [!IMPORTANT]
+> **Equipo de Referencia Oficial:**
+> Este software fue desarrollado, calibrado y probado específicamente para el modelo:
+> * **Laptop:** **Thunderobot RS16**
+> * **Procesador (CPU):** **AMD Ryzen 7 7745HX with Radeon Graphics**
+> * **Tarjeta Gráfica Dedicada (GPU):** **NVIDIA GeForce RTX 5070 Laptop GPU**
+> * **Placa base / Chasis:** Arquitectura OEM Uniwill / Tongfang
+
+> [!WARNING]
+> **Aviso de compatibilidad para otros equipos:**
+> El control térmico y de ventiladores interactúa directamente con los registros de memoria RAM del **Embedded Controller (EC)** a nivel de hardware.
+> En **otros modelos de laptop Thunderobot** o variantes con diferente placa base, procesador o versión de firmware/EC, **es posible que no funcione de la misma manera**, que los ventiladores respondan a diferentes offsets o que ciertas funciones de telemetría no estén disponibles.
+
+---
+
 ## 📑 Tabla de Contenidos
 
+* [⚠️ Compatibilidad de Hardware y Advertencia](#️-compatibilidad-de-hardware-y-advertencia)
 * [🔄 Comparativa Respecto a Windows](#-comparativa-y-cambios-respecto-a-la-versión-de-windows)
 * [🚀 Características Principales](#-características-principales)
   * [1. Modos de Rendimiento y Curvas de Ventilador](#1-modos-de-rendimiento-y-curvas-de-ventilador)
@@ -151,6 +174,7 @@ Si deseas cambiar el logo de la aplicación por uno propio:
 
 <a id="requisitos-previos"></a>
 ### Requisitos Previos
+* **Laptop de Referencia:** Thunderobot RS16 (Ryzen 7 7745HX + RTX 5070 Laptop) o chasis Uniwill equivalente.
 * **Sistema Operativo:** Ubuntu 22.04 LTS, 24.04 LTS o derivados basados en Debian.
 * **Controlador del chasis:** Driver de teclado/EC (`tuxedo-drivers` con soporte `/dev/tuxedo_io`).
 * **Python 3:** Python 3.10 o superior con `psutil`.
