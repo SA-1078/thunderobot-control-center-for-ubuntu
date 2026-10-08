@@ -332,7 +332,6 @@ class _MainScreenState extends State<MainScreen> {
                 child: Image.asset(
                   'assets/thunderobot.png',
                   fit: BoxFit.contain,
-                  errorBuilder: (_, __, ___) => const Icon(Icons.bolt, color: Colors.white, size: 24),
                 ),
               ),
               const SizedBox(width: 12),

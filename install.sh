@@ -68,7 +68,7 @@ fi
 
 if [ -f "$RELEASE_BUNDLE/thunderobot_app" ] && [ "$REBUILD" = "false" ]; then
     echo -e "${GREEN}✓ Utilizando binario release previamente compilado.${NC}"
-    echo -e "  (Usa './install.sh --rebuild' si realizaste cambios en el logo o código Flutter)"
+    echo -e "  (Usa './install.sh --rebuild' si realizaste cambios en el código Flutter)"
 elif [ -n "$FLUTTER_CMD" ]; then
     echo -e "${CYAN}[*] Compilando versión de producción con Flutter (${FLUTTER_CMD})...${NC}"
     (cd "$SCRIPT_DIR/thunderobot_app" && "$FLUTTER_CMD" pub get && "$FLUTTER_CMD" build linux --release)
@@ -116,12 +116,8 @@ chmod +x "$INSTALL_DIR/daemon/thunderobot_controller.py" 2>/dev/null || true
 # Limpiar posibles __pycache__ viejos
 find "$INSTALL_DIR/daemon" -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
 
-# Copiar logo / icono
-if [ -f "$SCRIPT_DIR/thunderobot_app/assets/thunderobot.png" ]; then
-    cp "$SCRIPT_DIR/thunderobot_app/assets/thunderobot.png" "$INSTALL_DIR/assets/thunderobot.png"
-elif [ -f "$SCRIPT_DIR/logo/logo.png" ]; then
-    cp "$SCRIPT_DIR/logo/logo.png" "$INSTALL_DIR/assets/thunderobot.png"
-fi
+# Copiar icono de la aplicación
+cp "$SCRIPT_DIR/thunderobot_app/assets/thunderobot.png" "$INSTALL_DIR/assets/thunderobot.png"
 
 # 4. Crear lanzador universal en ~/.local/bin
 echo -e "${YELLOW}[4/6] Configurando lanzador del sistema...${NC}"

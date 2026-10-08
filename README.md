@@ -43,7 +43,6 @@ Diseñado específicamente como un reemplazo de alto rendimiento y código abier
   * [3. Internacionalización Global (Español / Inglés)](#3-internacionalización-global-español--inglés)
   * [4. Monitor del Sistema y Sensores](#4-monitor-del-sistema-y-sensores)
   * [5. Batería y Energía Segura (100% Read-Only)](#5-batería-y-energía-segura-100-read-only)
-* [🎨 Personalización del Logo de la Aplicación](#-personalización-del-logo-de-la-aplicación)
 * [📦 Estructura del Repositorio](#-estructura-del-repositorio)
 * [🛠️ Instalación en Ubuntu](#-instalación-en-ubuntu)
   * [Requisitos Previos](#-requisitos-previos)
@@ -73,7 +72,6 @@ A continuación se detallan las mejoras técnicas y arquitectónicas implementad
 | **Iluminación RGB** | Comandos propietarios que pueden desincronizarse al suspender el equipo. | Control directo a través del subsistema del kernel (`sysfs multi_intensity`) con algoritmos armónicos de interpolación suave (Rainbow, Respiración, Reactivo Térmico). |
 | **Teclas Físicas de Brillo** | A veces bloquean la animación RGB tras pulsar `Fn + F6/F7`. | Escala armónica que respeta la animación activa y permite apagar o graduar el brillo en tiempo real con las teclas físicas. |
 | **Idiomas** | Textos con traducciones mixtas o incompletas (inglés/chino). | Conmutador global **Español / Inglés** instantáneo (< 16 ms) que traduce toda la suite en tiempo real y recuerda tu preferencia. |
-| **Personalización del Logo** | Fijo y codificado dentro de los paquetes compilados MSIX de Windows. | Fácilmente editable: basta con reemplazar `thunderobot_app/assets/thunderobot.png` por tu imagen preferida. |
 
 ---
 
@@ -124,23 +122,6 @@ A continuación se detallan las mejoras técnicas y arquitectónicas implementad
 
 ---
 
-<a id="logo"></a>
-## 🎨 Personalización del Logo de la Aplicación
-
-Si deseas cambiar el logo de la aplicación por uno propio:
-
-1. **Ubicación del Logo:**
-   El logo principal que utiliza la aplicación Flutter en la barra lateral y en el acceso directo del sistema se encuentra en:
-   ```text
-   thunderobot_app/assets/thunderobot.png
-   ```
-2. **Cómo reemplazarlo:**
-   * Prepara tu imagen en formato **PNG con fondo transparente** (resolución recomendada: 256x256 o 512x512 píxeles).
-   * Guarda tu archivo reemplazando `thunderobot_app/assets/thunderobot.png`.
-   * Ejecuta `./install.sh` o compila la app (`flutter build linux --release`).
-   * Tu nuevo logo aparecerá inmediatamente tanto en la barra lateral del Control Center como en el menú de aplicaciones y dock de Ubuntu.
-
----
 
 <a id="estructura"></a>
 ## 📦 Estructura del Repositorio
@@ -161,9 +142,8 @@ Si deseas cambiar el logo de la aplicación por uno propio:
 │   └── daemon/                         # Servidor REST HTTP (127.0.0.1:18888)
 ├── thunderobot_app/                    # Aplicación de interfaz gráfica en Flutter
 │   ├── lib/                            # Código Dart (main.dart, views, services, i18n)
-│   ├── assets/thunderobot.png          # Logo e icono oficial personalizable
+│   ├── assets/thunderobot.png          # Icono oficial de la aplicación
 │   └── pubspec.yaml                    # Configuración de dependencias y assets
-├── logo/                               # Recursos gráficos originales de referencia
 └── README.md
 ```
 
