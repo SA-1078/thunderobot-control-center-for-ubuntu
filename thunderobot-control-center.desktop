@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Thunderobot Control Center
+Comment=Centro de Control Nativo para Laptop Thunderobot RS (Linux)
+Exec=thunderobot-control-center
+Icon=thunderobot
+Terminal=false
+Type=Application
+Categories=Settings;HardwareSettings;System;
+Keywords=thunderobot;control;center;rgb;keyboard;fan;thermal;performance;
+StartupNotify=true
+StartupWMClass=thunderobot_app

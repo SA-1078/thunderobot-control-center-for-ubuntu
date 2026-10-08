@@ -1,0 +1,43 @@
+# === Large Windows OEM Blobs & Installer ===
+*.exe
+*.msix
+*.sys
+*.dll
+PreinstallKit/
+UserFanTables/
+RGBKeyboard.reg
+setup.ini
+
+# === Flutter & Dart Build Artifacts ===
+thunderobot_app/.dart_tool/
+thunderobot_app/build/
+thunderobot_app/.packages
+thunderobot_app/.flutter-plugins
+thunderobot_app/.flutter-plugins-dependencies
+thunderobot_app/linux/flutter/ephemeral/
+*.lock
+
+# === Python Cache & Environments ===
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+
+# === IDE & Editor Files ===
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# === OS Generated Files ===
+.DS_Store
+Thumbs.db
+
+# === Scratch scripts and logs ===
+scratch/
+*.log
