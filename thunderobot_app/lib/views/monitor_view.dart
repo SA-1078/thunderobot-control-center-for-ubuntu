@@ -10,9 +10,6 @@ class SystemMonitorView extends StatelessWidget {
   Widget build(BuildContext context) {
     final cpuTemp = status['cpu_temp'] ?? 0.0;
     final gpuTemp = status['gpu_temp'] ?? 0.0;
-    final bat = status['battery'] ?? {};
-    final batCap = bat['capacity'] ?? 0;
-    final batStatus = bat['status'] ?? 'Unknown';
 
     final fanSpeeds = status['fan_speeds'] as Map<String, dynamic>?;
     final int cpuFan = fanSpeeds?['cpu_fan_pct'] ?? ((status['fan_boost'] == true) ? 100 : 0);
@@ -103,20 +100,7 @@ class SystemMonitorView extends StatelessWidget {
                   color: const Color(0xFFFF007F),
                   icon: Icons.air,
                 ),
-                _buildCircularMetric(
-                  label: I18n.tr('metric_battery'),
-                  value: '$batCap%',
-                  ratio: (batCap / 100.0).clamp(0.0, 1.0),
-                  color: const Color(0xFF00FF88),
-                  icon: Icons.battery_charging_full,
-                ),
-                _buildCircularMetric(
-                  label: I18n.tr('metric_power_state'),
-                  value: batStatus == 'Charging' ? I18n.tr('charging') : I18n.tr('discharging'),
-                  ratio: 1.0,
-                  color: const Color(0xFFFF9900),
-                  icon: Icons.bolt,
-                ),
+
               ],
             ),
           ),

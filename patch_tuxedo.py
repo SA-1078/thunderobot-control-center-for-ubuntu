@@ -154,6 +154,28 @@ if target_prof in kbd_code:
 if target_custom in kbd_code:
     kbd_code = kbd_code.replace(target_custom, replacement_custom)
 
+# Disable charging profile logic completely so the driver never touches EC charging registers (0x07a6)
+target_charging_feat = "if (uw_has_charging_profile(&uw_feats->uniwill_has_charging_profile) != 0)"
+replacement_charging_feat = "uw_feats->uniwill_has_charging_profile = false; if (false)"
+
+target_charging_prio = "if (uw_has_charging_priority(&uw_feats->uniwill_has_charging_prio) != 0)"
+replacement_charging_prio = "uw_feats->uniwill_has_charging_prio = false; if (false)"
+
+if target_charging_feat in kbd_code:
+    kbd_code = kbd_code.replace(target_charging_feat, replacement_charging_feat)
+if target_charging_prio in kbd_code:
+    kbd_code = kbd_code.replace(target_charging_prio, replacement_charging_prio)
+
+# Neutralize write_state and set_charging_profile
+kbd_code = kbd_code.replace(
+    "static int uw_set_charging_profile(u8 charging_profile)\n{",
+    "static int uw_set_charging_profile(u8 charging_profile)\n{\n\treturn 0; // Disabled for Thunderobot RS\n"
+)
+kbd_code = kbd_code.replace(
+    "static void uw_charging_profile_write_state(void)\n{",
+    "static void uw_charging_profile_write_state(void)\n{\n\treturn; // Disabled for Thunderobot RS\n"
+)
+
 with open(kbd_file, "w") as f:
     f.write(kbd_code)
 print("  -> uniwill_keyboard.h patched successfully.")

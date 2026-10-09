@@ -168,7 +168,6 @@ WantedBy=default.target
 SVC_EOF
 
 systemctl --user daemon-reload
-systemctl --user enable thunderobot.service
 systemctl --user restart thunderobot.service
 
 # Verificar estado del servicio

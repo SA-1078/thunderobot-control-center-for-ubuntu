@@ -42,7 +42,6 @@ Diseñado específicamente como un reemplazo de alto rendimiento y código abier
   * [2. Iluminación RGB del Teclado](#2-iluminación-rgb-del-teclado)
   * [3. Internacionalización Global (Español / Inglés)](#3-internacionalización-global-español--inglés)
   * [4. Monitor del Sistema y Sensores](#4-monitor-del-sistema-y-sensores)
-  * [5. Batería y Energía Segura (100% Read-Only)](#5-batería-y-energía-segura-100-read-only)
 * [📦 Estructura del Repositorio](#-estructura-del-repositorio)
 * [🛠️ Instalación en Ubuntu](#-instalación-en-ubuntu)
   * [Requisitos Previos](#-requisitos-previos)
@@ -68,7 +67,6 @@ A continuación se detallan las mejoras técnicas y arquitectónicas implementad
 | **Fan Boost (100%)** | Botón en interfaz que depende de servicios pesados de Windows. | Conmutador inmediato directo al hardware (`IOCTL_W_UW_FANBOOST`) que lleva ambos ventiladores al 100% físico al instante. |
 | **Telemetría de Ventiladores** | Indicadores visuales aproximados o lentos. | Hilo asíncrono en segundo plano que consulta el EC cada 2s sin bloquear peticiones web: muestra el % de giro real (~26-30% en reposo, 100% en boost). |
 | **Perfiles de Rendimiento** | Perfiles OEM con modificación de voltajes en Windows. | Integrado con perfiles de Linux y modos nativos del EC (`IOCTL_W_UW_PERF_PROF`): Oficina (Silencioso), Equilibrado y Rendimiento. |
-| **Seguridad de la Batería** | Intentos de control por software que pueden descalibrar el controlador en placas Uniwill/AMD. | **100% Modo Seguro de Solo Lectura:** Telemetría precisa en tiempo real vía `/sys/class/power_supply/` (voltaje, corriente, potencia en W) sin tocar circuitos de carga. |
 | **Iluminación RGB** | Comandos propietarios que pueden desincronizarse al suspender el equipo. | Control directo a través del subsistema del kernel (`sysfs multi_intensity`) con algoritmos armónicos de interpolación suave (Rainbow, Respiración, Reactivo Térmico). |
 | **Teclas Físicas de Brillo** | A veces bloquean la animación RGB tras pulsar `Fn + F6/F7`. | Escala armónica que respeta la animación activa y permite apagar o graduar el brillo en tiempo real con las teclas físicas. |
 | **Idiomas** | Textos con traducciones mixtas o incompletas (inglés/chino). | Conmutador global **Español / Inglés** instantáneo (< 16 ms) que traduce toda la suite en tiempo real y recuerda tu preferencia. |
@@ -113,14 +111,8 @@ A continuación se detallan las mejoras técnicas y arquitectónicas implementad
 <a id="monitor"></a>
 ### 4. 📊 Monitor del Sistema y Sensores
 * **Especificaciones del Hardware:** Detección de procesador (AMD Ryzen), tarjeta gráfica (NVIDIA RTX) y memoria RAM.
-* **Medidores Circulares en Vivo:** Temperatura de CPU, Temperatura de GPU, porcentaje de ventiladores y estado de batería.
+* **Medidores Circulares en Vivo:** Temperatura de CPU, Temperatura de GPU, y porcentaje de ventiladores (CPU y GPU).
 
-<a id="bateria"></a>
-### 5. 🔋 Batería y Energía Segura (100% Read-Only)
-* Telemetría de precisión mediante el subsistema de energía de Linux (`power_supply`): porcentaje, estado de carga, voltaje de celdas, corriente en mA y potencia en vatios.
-* **Modo Seguro de Firmware:** Operación en estricto modo de solo lectura para evitar interferir con los circuitos de la placa base o la BIOS.
-
----
 
 
 <a id="estructura"></a>
@@ -137,7 +129,7 @@ A continuación se detallan las mejoras técnicas y arquitectónicas implementad
 ├── thunderobot.service                 # Servicio de usuario systemd
 ├── thunderobot_controller.py           # Punto de entrada del demonio en Python
 ├── thunderobot_core/                   # Paquete Python: Motor HAL y servidor local
-│   ├── hal/                            # Abstracción de Hardware (thermal, ec_led, battery)
+│   ├── hal/                            # Abstracción de Hardware (thermal, ec_led)
 │   ├── engine/                         # Algoritmos de efectos RGB y scheduler
 │   └── daemon/                         # Servidor REST HTTP (127.0.0.1:18888)
 ├── thunderobot_app/                    # Aplicación de interfaz gráfica en Flutter

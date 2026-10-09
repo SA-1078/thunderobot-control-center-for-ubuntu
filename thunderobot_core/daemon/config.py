@@ -10,7 +10,6 @@ DEFAULT_CONFIG = {
     "color": [0, 255, 236],
     "secondary_color": [255, 0, 128],
     "brightness": 4,
-    "charging_profile": "high_capacity",
     "power_profile": "balanced"
 }
 

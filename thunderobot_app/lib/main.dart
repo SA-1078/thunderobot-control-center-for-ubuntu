@@ -7,7 +7,6 @@ import 'services/i18n_service.dart';
 import 'views/lighting_view.dart';
 import 'views/performance_view.dart';
 import 'views/monitor_view.dart';
-import 'views/battery_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -284,9 +283,6 @@ class _MainScreenState extends State<MainScreen> {
                       SystemMonitorView(
                         status: _status,
                       ),
-                      BatteryView(
-                        status: _status,
-                      ),
                     ],
                   ),
                 ),
@@ -365,7 +361,6 @@ class _MainScreenState extends State<MainScreen> {
           _sidebarItem(0, I18n.tr('tab_lighting'), Icons.keyboard_alt_outlined),
           _sidebarItem(1, I18n.tr('tab_performance'), Icons.speed_outlined),
           _sidebarItem(2, I18n.tr('tab_monitor'), Icons.analytics_outlined),
-          _sidebarItem(3, I18n.tr('tab_battery'), Icons.battery_charging_full_outlined),
           const Spacer(),
           // Connection status indicator & Manual Reconnect Button
           Container(
@@ -486,7 +481,6 @@ class _MainScreenState extends State<MainScreen> {
   Widget _buildTopHeader() {
     final cpuTemp = _status['cpu_temp'] ?? 0.0;
     final gpuTemp = _status['gpu_temp'] ?? 0.0;
-    final batCap = _status['battery']?['capacity'] ?? 0;
 
     String title;
     switch (_currentTab) {
@@ -525,7 +519,6 @@ class _MainScreenState extends State<MainScreen> {
           const SizedBox(width: 12),
           _quickPill(Icons.sports_esports, 'GPU: ${gpuTemp}°C', const Color(0xFFFF007F)),
           const SizedBox(width: 12),
-          _quickPill(Icons.battery_std, '$batCap%', const Color(0xFF00FF88)),
         ],
       ),
     );

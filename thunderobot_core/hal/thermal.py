@@ -21,42 +21,6 @@ class ThermalSensorManager:
         self._cpu_temp_path = self._find_cpu_temp_path()
         self._fan_boost = False
         self._cached_fan_speeds = {"cpu_fan_pct": 28, "gpu_fan_pct": 28, "available": True}
-        self._running = True
-        self._telemetry_thread = threading.Thread(target=self._fan_telemetry_loop, daemon=True)
-        self._telemetry_thread.start()
-
-    def _fan_telemetry_loop(self):
-        while self._running:
-            if not self._fan_boost and os.path.exists(DEV_TUXEDO_IO):
-                try:
-                    fd = os.open(DEV_TUXEDO_IO, os.O_RDWR | os.O_NONBLOCK)
-                    try:
-                        buf0 = bytearray(8)
-                        fcntl.ioctl(fd, IOCTL_R_UW_FANSPEED, buf0)
-                        raw_cpu = struct.unpack("i", buf0[:4])[0]
-
-                        buf1 = bytearray(8)
-                        fcntl.ioctl(fd, IOCTL_R_UW_FANSPEED2, buf1)
-                        raw_gpu = struct.unpack("i", buf1[:4])[0]
-
-                        cpu_pct = min(100, max(0, int((raw_cpu / 200.0) * 100)))
-                        gpu_pct = min(100, max(0, int((raw_gpu / 200.0) * 100)))
-
-                        if cpu_pct < 15 and self.get_cpu_temp() > 40:
-                            cpu_pct = 25
-                        if gpu_pct < 15 and self.get_gpu_temp() > 40:
-                            gpu_pct = 25
-
-                        self._cached_fan_speeds = {
-                            "cpu_fan_pct": cpu_pct,
-                            "gpu_fan_pct": gpu_pct,
-                            "available": True,
-                        }
-                    finally:
-                        os.close(fd)
-                except Exception:
-                    pass
-            time.sleep(2.0)
 
     def _find_cpu_temp_path(self) -> str:
         # Look for k10temp (AMD Ryzen)

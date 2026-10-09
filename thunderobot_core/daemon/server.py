@@ -2,7 +2,6 @@ import json
 import urllib.parse
 from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
 from thunderobot_core.hal.ec_led import ECLedInterface
-from thunderobot_core.hal.battery import BatteryManager
 from thunderobot_core.hal.thermal import ThermalSensorManager
 from thunderobot_core.engine.scheduler import AnimationScheduler
 from thunderobot_core.daemon.config import ConfigManager
@@ -11,7 +10,6 @@ class ThunderobotDaemon:
     def __init__(self):
         self.config_mgr = ConfigManager()
         self.led_hal = ECLedInterface()
-        self.battery_hal = BatteryManager()
         self.thermal_hal = ThermalSensorManager()
         self.scheduler = AnimationScheduler(
             self.led_hal,
@@ -29,7 +27,6 @@ class ThunderobotDaemon:
     def _init_from_config(self):
         cfg = self.config_mgr.load()
         self.led_hal.write_brightness(cfg.get("brightness", 4))
-        self.battery_hal.set_profile(cfg.get("charging_profile", "high_capacity"))
         self.thermal_hal.set_power_profile(cfg.get("power_profile", "balanced"))
         self.fan_boost = cfg.get("fan_boost", False)
         self.scheduler.set_effect(
@@ -40,21 +37,18 @@ class ThunderobotDaemon:
         )
 
     def get_status(self) -> dict:
-        bat_telemetry = self.battery_hal.get_telemetry()
         return {
             "effect": self.scheduler.current_effect_name,
             "speed": self.scheduler.speed,
             "color": self.scheduler.color,
             "secondary_color": self.scheduler.secondary_color,
             "brightness": self.led_hal.get_hw_brightness(),
-            "charging_profile": bat_telemetry["profile"],
             "power_profile": self.thermal_hal.get_power_profile(),
             "fn_lock": self.thermal_hal.get_fn_lock(),
             "fan_boost": self.fan_boost,
             "fan_speeds": self.thermal_hal.get_fan_speeds(),
             "cpu_temp": self.thermal_hal.get_cpu_temp(),
             "gpu_temp": self.thermal_hal.get_gpu_temp(),
-            "battery": bat_telemetry,
         }
 
     def save_state(self):
@@ -118,21 +112,6 @@ class RestRequestHandler(BaseHTTPRequestHandler):
             daemon_instance.led_hal.write_brightness(level)
             daemon_instance.save_state()
             self._send_json({"status": "ok", "brightness": level})
-
-        elif parsed.path in ["/battery", "/api/battery"]:
-            profile = req.get("profile", "high_capacity")
-            success = daemon_instance.battery_hal.set_profile(str(profile))
-            daemon_instance.save_state()
-            self._send_json({"status": "ok" if success else "failed", "profile": profile})
-
-        elif parsed.path in ["/battery/test", "/api/battery/test"]:
-            success = daemon_instance.battery_hal.trigger_test_alert()
-            self._send_json({"status": "ok" if success else "failed", "alert_sent": success})
-
-        elif parsed.path in ["/battery/alert", "/api/battery/alert"]:
-            enabled = bool(req.get("enabled", True))
-            daemon_instance.battery_hal.assisted_alert_enabled = enabled
-            self._send_json({"status": "ok", "assisted_alert_enabled": enabled})
 
         elif parsed.path in ["/power", "/api/power"]:
             profile = req.get("profile", "balanced")
